@@ -19,14 +19,14 @@ public class ConnectionSQL {
 
             // Establish the connection
             Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("✅ Database connected successfully!");
+            System.out.println(" Database connected successfully!");
             return connection;
 
         } catch (ClassNotFoundException e) {
-            System.out.println("❌ MySQL JDBC Driver not found.");
+            System.out.println(" MSSql JDBC Driver not found.");
             e.printStackTrace();
         } catch (SQLException e) {
-            System.out.println("❌ Connection failed.");
+            System.out.println(" Connection failed.");
             e.printStackTrace();
         }
 
