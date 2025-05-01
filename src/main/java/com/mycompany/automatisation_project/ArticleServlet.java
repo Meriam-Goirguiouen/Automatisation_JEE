@@ -1,76 +1,63 @@
 package com.mycompany.automatisation_project;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+import java.sql.*;
 
-import static com.mycompany.automatisation_project.ConnectionSQL.getConnection;
-
-@WebServlet("/addArticle")
 public class ArticleServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        String nom = request.getParameter("nom");
-        String ref = request.getParameter("ref");
-        int qteDeStock = Integer.parseInt(request.getParameter("qteDeStock"));
-
-        // Set the response type to HTML
-        response.setContentType("text/html");
-
-        // Get the PrintWriter object to send the response to the client
+            throws IOException {
+        response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
 
-        try {
-            // Connect to the database
-            Connection conn = getConnection();
+        String nom = request.getParameter("nom");
+        String ref = request.getParameter("ref");
+        String qteStr = request.getParameter("qteDeStock");
 
-            // Insert article
-            String sql = "INSERT INTO articles (nom, ref, qteDeStock) VALUES (?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        // Basic validation
+        if (nom == null || nom.trim().isEmpty()) {
+            out.println("Error: 'nom' is required.");
+            return;
+        }
+
+        if (ref == null || ref.trim().isEmpty()) {
+            out.println("Error: 'ref' is required.");
+            return;
+        }
+
+        int qte;
+        try {
+            qte = Integer.parseInt(qteStr);
+            if (qte < 0) {
+                out.println("Error: Quantity must be positive.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            out.println("Error: Invalid stock quantity.");
+            return;
+        }
+
+        try (Connection conn = ConnectionSQL.getConnection()) {
+            String query = "INSERT INTO article (nom, ref, qteDeStock) VALUES (?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, nom);
             stmt.setString(2, ref);
-            stmt.setInt(3, qteDeStock);
+            stmt.setInt(3, qte);
 
-            // Log the SQL query for debugging
-            System.out.println("Executing query: " + sql);
-            System.out.println("Inserting article with values: " + nom + ", " + ref + ", " + qteDeStock);
-
-            // Execute the update and check how many rows were affected
             int rows = stmt.executeUpdate();
-            
-            // Log the result of the update
             if (rows > 0) {
-                System.out.println("Article inserted successfully!");
-                conn.commit();  // Commit the transaction if auto-commit is off
-                out.println("<h2>Article inserted successfully!</h2>");
+                out.println("Article inserted successfully!");
             } else {
-                System.out.println("Failed to insert article.");
-                out.println("<h2>Failed to insert article.</h2>");
+                out.println("Error: Failed to insert article.");
             }
 
-            // Close the resources
-            stmt.close();
-            conn.close();
-        } catch (Exception e) {
-            out.println("<h2>Error: " + e.getMessage() + "</h2>");
-            e.printStackTrace(); // Print stack trace for debugging
-            throw new ServletException("DB error", e);
-        } finally {
-            // Ensure the PrintWriter is flushed and closed
-            out.flush();
-            out.close();
+        } catch (SQLIntegrityConstraintViolationException dup) {
+            out.println("Error: Duplicate reference.");
+        } catch (SQLException e) {
+            out.println("Database error: " + e.getMessage());
         }
     }
 }
-
-

@@ -14,64 +14,97 @@ import java.sql.PreparedStatement;
 
 import static org.mockito.Mockito.*;
 
+
 class ArticleServletTest {
 
-    private ArticleServlet articleServlet;
+    private ArticleServlet servlet;
     private HttpServletRequest request;
     private HttpServletResponse response;
-    private StringWriter stringWriter;
     private PrintWriter writer;
 
     @BeforeEach
-    void setUp() throws IOException {
-        // Create a new instance of ArticleServlet before each test
-        articleServlet = new ArticleServlet();
-
-        // Mock HttpServletRequest and HttpServletResponse
+    void setUp() throws Exception {
+        servlet = new ArticleServlet();
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
+        writer = mock(PrintWriter.class);
 
-        // Prepare StringWriter and Mock the PrintWriter
-        stringWriter = new StringWriter();
-        writer = mock(PrintWriter.class);  // Mock the PrintWriter here
-
-        // Mock the response.getWriter() to return our mocked PrintWriter
         when(response.getWriter()).thenReturn(writer);
     }
 
     @Test
-    void testDoPost() throws Exception {
-        // Mock request parameters
-        when(request.getParameter("nom")).thenReturn("OPPO A5");
-        when(request.getParameter("ref")).thenReturn("PHONE2X00027");
-        when(request.getParameter("qteDeStock")).thenReturn("20");
+    void testValidArticleInsertion() throws Exception {
+        when(request.getParameter("nom")).thenReturn("Laptop");
+        when(request.getParameter("ref")).thenReturn("LPTP001");
+        when(request.getParameter("qteDeStock")).thenReturn("10");
 
-        // Mock database connection and PreparedStatement
         Connection conn = mock(Connection.class);
         PreparedStatement stmt = mock(PreparedStatement.class);
+        when(conn.prepareStatement(any())).thenReturn(stmt);
+        when(stmt.executeUpdate()).thenReturn(1);
 
-        // Mock the connection to return a mocked PreparedStatement
-        when(conn.prepareStatement(any(String.class))).thenReturn(stmt);
-        when(stmt.executeUpdate()).thenReturn(1);  // Simulate successful insert (1 row inserted)
+        try (MockedStatic<ConnectionSQL> mockedConn = mockStatic(ConnectionSQL.class)) {
+            mockedConn.when(ConnectionSQL::getConnection).thenReturn(conn);
+            servlet.doPost(request, response);
+            verify(writer).println(contains("Article inserted successfully"));
+        }
+    }
 
-        // Mock static getConnection method using Mockito.mockStatic
-        try (MockedStatic<ConnectionSQL> mockedConnectionSQL = mockStatic(ConnectionSQL.class)) {
-            mockedConnectionSQL.when(ConnectionSQL::getConnection).thenReturn(conn);
+    @Test
+    void testMissingName() throws Exception {
+        when(request.getParameter("nom")).thenReturn("");
+        when(request.getParameter("ref")).thenReturn("REF001");
+        when(request.getParameter("qteDeStock")).thenReturn("5");
 
-            // Call the servlet's doPost method
-            articleServlet.doPost(request, response);
+        servlet.doPost(request, response);
+        verify(writer).println(contains("nom"));
+    }
 
-            // Capture the output printed to the PrintWriter
-            String output = stringWriter.toString();
+    @Test
+    void testEmptyRefShouldFail() throws Exception {
+        when(request.getParameter("nom")).thenReturn("Phone");
+        when(request.getParameter("ref")).thenReturn("");
+        when(request.getParameter("qteDeStock")).thenReturn("5");
 
-            // Verify the output content
-            System.out.println("Test Output: " + output); // This will print to the console
+        servlet.doPost(request, response);
+        verify(writer).println(contains("ref"));
+    }
 
-            // Verify that response.getWriter() was called
-            verify(response).getWriter();
+    @Test
+    void testNegativeStockShouldFail() throws Exception {
+        when(request.getParameter("nom")).thenReturn("Phone");
+        when(request.getParameter("ref")).thenReturn("REF002");
+        when(request.getParameter("qteDeStock")).thenReturn("-10");
 
-            // Verify that writer.println was called with the success message
-            verify(writer).println(contains("Article inserted successfully!"));
+        servlet.doPost(request, response);
+        verify(writer).println(contains("Quantity must be positive"));
+    }
+
+    @Test
+    void testInvalidStockFormatShouldFail() throws Exception {
+        when(request.getParameter("nom")).thenReturn("Tablet");
+        when(request.getParameter("ref")).thenReturn("TAB001");
+        when(request.getParameter("qteDeStock")).thenReturn("invalid");
+
+        servlet.doPost(request, response);
+        verify(writer).println(contains("Invalid stock quantity"));
+    }
+
+    @Test
+    void testDuplicateRefShouldFail() throws Exception {
+        when(request.getParameter("nom")).thenReturn("Phone");
+        when(request.getParameter("ref")).thenReturn("DUPL001");
+        when(request.getParameter("qteDeStock")).thenReturn("10");
+
+        Connection conn = mock(Connection.class);
+        PreparedStatement stmt = mock(PreparedStatement.class);
+        when(conn.prepareStatement(any())).thenReturn(stmt);
+        when(stmt.executeUpdate()).thenThrow(new java.sql.SQLIntegrityConstraintViolationException());
+
+        try (MockedStatic<ConnectionSQL> mockedConn = mockStatic(ConnectionSQL.class)) {
+            mockedConn.when(ConnectionSQL::getConnection).thenReturn(conn);
+            servlet.doPost(request, response);
+            verify(writer).println(contains("Duplicate reference"));
         }
     }
 }
