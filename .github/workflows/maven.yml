@@ -2,9 +2,11 @@ name: Run JUnit Tests
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - Test_LigneFacture
   pull_request:
-    branches: [ main ]
+    branches:
+      - Test_LigneFacture
 
 jobs:
   test:
