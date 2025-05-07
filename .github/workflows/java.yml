@@ -3,10 +3,10 @@ name: Java CI with Maven
 on:
   push:
     branches:
-      - master 
+      - master
   pull_request:
     branches:
-      - master 
+      - master
 
 jobs:
   build:
@@ -20,12 +20,13 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '11'
+        distribution: 'temurin'
 
     - name: Cache Maven dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-${{ github.sha }}  # Utiliser github.sha pour une clé unique
         restore-keys: |
           ${{ runner.os }}-maven-
 
