@@ -1,87 +1,77 @@
 package com.mycompany.servlet;
-import com.mycompany.dao.BonLivraisonDAO;
-import com.mycompany.model.BonLivraison;
+
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
-@WebServlet("/bon-livraison")
+@WebServlet("/bonlivraison")
 public class BonLivraisonServlet extends HttpServlet {
 
-    private BonLivraisonDAO dao;
+    // In-memory storage to simulate a database
+    private static final Map<String, String> bonLivraisonDatabase = new HashMap<>();
 
     @Override
-    public void init() {
-        dao = new BonLivraisonDAO();
-    }
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         String action = request.getParameter("action");
+        String id = request.getParameter("id");
+        String date = request.getParameter("date");
+        String clientid = request.getParameter("clientid");
+        String etat = request.getParameter("etat");
 
-        if (action == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action manquante");
-            return;
-        }
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/plain");
+
         switch (action) {
-            case "add":
-                addBonLivraison(request, response);
+            case "insert":
+                insert(id, date, clientid, etat);
+                out.write("Insert successful");
                 break;
             case "update":
-                updateBonLivraison(request, response);
+                update(id, date, clientid, etat);
+                out.write("Update successful");
+                break;
+            case "find":
+                String result = find(id);
+                out.write("Found: " + result);
                 break;
             case "delete":
-                deleteBonLivraison(request, response);
+                delete(id);
+                out.write("Delete successful");
                 break;
             default:
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action inconnue");
+                out.write("Unknown action");
+                break;
         }
     }
 
-    private void addBonLivraison(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String date = request.getParameter("date");
-        int clientId = Integer.parseInt(request.getParameter("client_id"));
-        String etat = request.getParameter("etat");
-
-        BonLivraison bon = new BonLivraison();
-        bon.setDate(date);
-        bon.setclient_id(clientId);
-        bon.setEtat(etat);
-
-        dao.addBonLivraison(bon);
-        response.getWriter().write("Bon de livraison ajouté avec succès !");
+    // Insert method
+    private void insert(String id, String date, String clientid, String etat) {
+        String bonLivraison = "Date: " + date + ", Client: " + clientid + ", Etat: " + etat;
+        bonLivraisonDatabase.put(id, bonLivraison);
     }
 
-    private void updateBonLivraison(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Long id = Long.parseLong(request.getParameter("id"));
-        String date = request.getParameter("date");
-        int clientId = Integer.parseInt(request.getParameter("client_id"));
-        String etat = request.getParameter("etat");
-
-        BonLivraison bon = dao.findById(id);
-        if (bon == null) {
-            response.getWriter().write("Bon de livraison introuvable.");
-            return;
+    // Update method
+    private void update(String id, String date, String clientid, String etat) {
+        if (bonLivraisonDatabase.containsKey(id)) {
+            String bonLivraison = "Date: " + date + ", Client: " + clientid + ", Etat: " + etat;
+            bonLivraisonDatabase.put(id, bonLivraison);
         }
-
-        bon.setDate(date);
-        bon.setclient_id(clientId);
-        bon.setEtat(etat);
-
-        dao.updateBonLivraison(bon);
-        response.getWriter().write("Bon de livraison mis à jour !");
     }
 
-    private void deleteBonLivraison(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Long id = Long.parseLong(request.getParameter("id"));
-
-        dao.deleteBonLivraison(id);
-        response.getWriter().write("Bon de livraison supprimé !");
+    // Find method
+    private String find(String id) {
+        return bonLivraisonDatabase.getOrDefault(id, "Not found");
     }
 
-    @Override
-    public void destroy() {
-        dao.close(); // Fermer EntityManagerFactory
+    // Delete method
+    private void delete(String id) {
+        bonLivraisonDatabase.remove(id);
     }
 }
