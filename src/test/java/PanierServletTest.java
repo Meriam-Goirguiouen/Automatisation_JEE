@@ -1,7 +1,6 @@
 import com.mycompany.automatisation_project.PanierServlet;
 import jakarta.servlet.http.*;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -12,29 +11,84 @@ import static org.mockito.Mockito.*;
 public class PanierServletTest {
 
     @Test
-    public void testPanierServletWithValidData() throws Exception {
-        // Créer les mocks
+    public void testClientValide() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
 
-        // Simuler les paramètres
-        when(request.getParameter("date")).thenReturn("2025-04-30");
         when(request.getParameter("client")).thenReturn("5");
+        when(request.getParameter("date")).thenReturn("2025-05-01");
 
-        // Simuler l'objet PrintWriter
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         when(response.getWriter()).thenReturn(pw);
 
-        // Appeler la Servlet
         PanierServlet servlet = new PanierServlet();
         servlet.doGet(request, response);
 
-        pw.flush(); // S'assurer que tout est écrit
-
-        // Vérifier le contenu
+        pw.flush();
         String output = sw.toString();
         assertTrue(output.contains("Client valide : true"));
+    }
+
+    @Test
+    public void testClientInvalide() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("client")).thenReturn("abc");
+        when(request.getParameter("date")).thenReturn("2025-05-01");
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        when(response.getWriter()).thenReturn(pw);
+
+        PanierServlet servlet = new PanierServlet();
+        servlet.doGet(request, response);
+
+        pw.flush();
+        String output = sw.toString();
+        assertTrue(output.contains("Client valide : false"));
+    }
+
+    @Test
+    public void testValidDate() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("client")).thenReturn("1");
+        when(request.getParameter("date")).thenReturn("2025-05-01");
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        when(response.getWriter()).thenReturn(pw);
+
+        PanierServlet servlet = new PanierServlet();
+        servlet.doGet(request, response);
+
+        pw.flush();
+        String output = sw.toString();
         assertTrue(output.contains("Date valide : true"));
     }
+
+    @Test
+    public void testInvalidDate() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("client")).thenReturn("1");
+        when(request.getParameter("date")).thenReturn("invalid-date");
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        when(response.getWriter()).thenReturn(pw);
+
+        PanierServlet servlet = new PanierServlet();
+        servlet.doGet(request, response);
+
+        pw.flush();
+        String output = sw.toString();
+        assertTrue(output.contains("Date valide : false"));
+    }
+
+   
 }
