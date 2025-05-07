@@ -16,7 +16,10 @@
         <maven.compiler.target>11</maven.compiler.target>
         <exec.mainClass>com.mycompany.automatisation_project.Automatisation_Project</exec.mainClass>
     </properties>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 50fd0730bf8617e75d14a1045f3955aaea523036
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -29,7 +32,11 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.7.1</version>
+<<<<<<< HEAD
             <scope>test</scope>
+=======
+            <type>jar</type>
+>>>>>>> 50fd0730bf8617e75d14a1045f3955aaea523036
         </dependency>
 
         <dependency>
@@ -43,6 +50,7 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>4.0.0</version>
+<<<<<<< HEAD
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -53,3 +61,36 @@
         </dependency>
     </dependencies>
 </project>
+=======
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>4.0.0</version> <!-- Latest stable version -->
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>12.10.0.jre11</version> <!-- choose version based on your JDK -->
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <!-- Surefire Plugin to run tests and generate reports -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+>>>>>>> 50fd0730bf8617e75d14a1045f3955aaea523036
