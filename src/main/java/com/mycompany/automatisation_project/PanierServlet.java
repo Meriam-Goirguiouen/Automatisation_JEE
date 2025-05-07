@@ -1,3 +1,6 @@
+package com.mycompany.automatisation_project;
+
+import com.mycompany.automatisation_project.Panier;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -9,7 +12,7 @@ import java.sql.Date;
 @WebServlet("/panier")
 public class PanierServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         String dateStr = request.getParameter("date");

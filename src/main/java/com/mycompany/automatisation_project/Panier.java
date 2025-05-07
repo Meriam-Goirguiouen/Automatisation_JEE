@@ -1,3 +1,5 @@
+package com.mycompany.automatisation_project;
+
 import java.sql.Date;
 import java.time.LocalDate;
 

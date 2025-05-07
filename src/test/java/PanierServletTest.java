@@ -1,3 +1,4 @@
+import com.mycompany.automatisation_project.PanierServlet;
 import jakarta.servlet.http.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
