@@ -16,10 +16,6 @@
         <maven.compiler.target>11</maven.compiler.target>
         <exec.mainClass>com.mycompany.automatisation_project.Automatisation_Project</exec.mainClass>
     </properties>
-<<<<<<< HEAD
-
-=======
->>>>>>> 50fd0730bf8617e75d14a1045f3955aaea523036
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -32,11 +28,7 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.7.1</version>
-<<<<<<< HEAD
-            <scope>test</scope>
-=======
             <type>jar</type>
->>>>>>> 50fd0730bf8617e75d14a1045f3955aaea523036
         </dependency>
 
         <dependency>
@@ -50,18 +42,6 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>4.0.0</version>
-<<<<<<< HEAD
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.1.0</version>
-            <type>jar</type>
-        </dependency>
-    </dependencies>
-</project>
-=======
             <type>jar</type>
             <scope>test</scope>
         </dependency>
@@ -93,4 +73,3 @@
         </plugins>
     </build>
 </project>
->>>>>>> 50fd0730bf8617e75d14a1045f3955aaea523036
