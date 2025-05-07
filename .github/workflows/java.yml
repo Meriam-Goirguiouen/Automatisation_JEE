@@ -20,9 +20,10 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '11'
+        distribution: 'adoptopenjdk'
 
     - name: Cache Maven dependencies
-      uses: actions/cache@v3  # Utilisation de la dernière version stable
+      uses: actions/cache@v3
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-${{ github.sha }}  # Utiliser github.sha pour une clé unique
