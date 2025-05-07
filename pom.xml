@@ -58,12 +58,6 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>12.10.0.jre11</version> <!-- choose version based on your JDK -->
         </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.1.0</version>
-            <type>jar</type>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
