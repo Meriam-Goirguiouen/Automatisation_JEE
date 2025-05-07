@@ -16,7 +16,6 @@
         <maven.compiler.target>11</maven.compiler.target>
         <exec.mainClass>com.mycompany.automatisation_project.Automatisation_Project</exec.mainClass>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -58,12 +57,6 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>12.10.0.jre11</version> <!-- choose version based on your JDK -->
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
-            <type>jar</type>
         </dependency>
     </dependencies>
     <build>
