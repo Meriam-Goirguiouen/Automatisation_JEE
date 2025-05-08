@@ -46,7 +46,7 @@ class ArticleServletTest {
         try (MockedStatic<ConnectionSQL> mockedConn = mockStatic(ConnectionSQL.class)) {
             mockedConn.when(ConnectionSQL::getConnection).thenReturn(conn);
             servlet.doPost(request, response);
-            verify(writer).println(contains("Article inserted successfully !"));
+            verify(writer).println(contains("Article inserted successfully"));
         }
     }
 
