@@ -1,7 +1,6 @@
-package com.mycompany.test;
 
 
-import com.mycompany.servlet.BonLivraisonServlet;
+import com.mycompany.automatisation_project.BonLivraisonServlet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -63,17 +62,26 @@ class BonLivraisonServletTest {
     }
 
     @Test
-    void testFind() throws Exception {
-        // Setup mock request parameters
-        when(request.getParameter("action")).thenReturn("find");
-        when(request.getParameter("id")).thenReturn("1");
+void testFind() throws Exception {
+    // D'abord on insère une valeur
+    when(request.getParameter("action")).thenReturn("insert");
+    when(request.getParameter("id")).thenReturn("1");
+    when(request.getParameter("date")).thenReturn("2025-05-07");
+    when(request.getParameter("clientid")).thenReturn("123");
+    when(request.getParameter("etat")).thenReturn("Pending");
+    servlet.doPost(request, response);
 
-        // Call servlet
-        servlet.doPost(request, response);
+    // Reset output
+    responseWriter.getBuffer().setLength(0);
 
-        // Verify response
-        assertEquals("Found: Date: 2025-05-07, Client: 123, Etat: Pending", responseWriter.toString());
-    }
+    // Puis on essaie de la retrouver
+    when(request.getParameter("action")).thenReturn("find");
+    when(request.getParameter("id")).thenReturn("1");
+    servlet.doPost(request, response);
+
+    assertEquals("Found: Date: 2025-05-07, Client: 123, Etat: Pending", responseWriter.toString());
+}
+
 
     @Test
     void testDelete() throws Exception {
