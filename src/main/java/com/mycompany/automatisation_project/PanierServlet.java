@@ -2,41 +2,44 @@ package com.mycompany.automatisation_project;
 
 import com.mycompany.automatisation_project.Panier;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
-@WebServlet("/panier")
 public class PanierServlet extends HttpServlet {
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String dateStr = request.getParameter("date");
-        String clientStr = request.getParameter("client");
 
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
+        String clientParam = request.getParameter("client");
+        String dateParam = request.getParameter("date");
 
+        boolean clientValide = false;
+        boolean dateValide = false;
+
+        // Vérifier si le client est un entier
         try {
-            Date dateCommande = Date.valueOf(dateStr);
-            int client = Integer.parseInt(clientStr);
-
-            Panier panier = new Panier(dateCommande, client);
-
-            out.println("<html><body>");
-            out.println("<h2>Résultat du test Panier</h2>");
-            out.println("<p>Client valide : " + panier.isValidClient() + "</p>");
-            out.println("<p>Date valide : " + panier.isValidDate() + "</p>");
-            out.println("</body></html>");
-        } catch (Exception e) {
-            out.println("<html><body>");
-            out.println("<h2>Erreur :</h2>");
-            out.println("<p>" + e.getMessage() + "</p>");
-            out.println("</body></html>");
+            Integer.parseInt(clientParam);
+            clientValide = true;
+        } catch (NumberFormatException e) {
+            clientValide = false;
         }
+
+        // Vérifier si la date est au bon format
+        try {
+            LocalDate.parse(dateParam); // format attendu : yyyy-MM-dd
+            dateValide = true;
+        } catch (DateTimeParseException e) {
+            dateValide = false;
+        }
+
+        // Envoyer la réponse
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        out.println("Client valide : " + clientValide);
+        out.println("Date valide : " + dateValide);
     }
 }
