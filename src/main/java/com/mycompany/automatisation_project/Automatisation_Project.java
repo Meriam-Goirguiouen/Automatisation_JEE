@@ -1,16 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
+//package com.mycompany.automatisation_project;
 
-package com.mycompany.automatisation_project;
 
-/**
- *
- * @author univers
- */
+import static com.mycompany.automatisation_project.ConnectionSQL.getConnection;
+
 public class Automatisation_Project {
-
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        getConnection();
     }
 }
