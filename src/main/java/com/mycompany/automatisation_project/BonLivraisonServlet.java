@@ -1,4 +1,4 @@
-package com.mycompany.servlet;
+package com.mycompany.automatisation_project;
 
 
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ public class BonLivraisonServlet extends HttpServlet {
     private static final Map<String, String> bonLivraisonDatabase = new HashMap<>();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
