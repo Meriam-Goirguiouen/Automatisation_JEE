@@ -1,4 +1,4 @@
-package com.mycompany.automatisation_project;
+//package com.mycompany.automatisation_project;
 
 
 import static com.mycompany.automatisation_project.ConnectionSQL.getConnection;
