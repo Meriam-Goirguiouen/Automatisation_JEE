@@ -8,8 +8,8 @@ public class ConnectionSQL {
     
     // Database credentials
     private static final String URL = "jdbc:sqlserver://DESKTOP-QG7QTMK:1433;databaseName=JeeProject;encrypt=true;TrustServerCertificate=true;";
-    private static final String USER = "salma"; //change to your sql user, li darna nit f info dis
-    private static final String PASSWORD = "salmazine2003";// nafs lhaja hna
+    private static final String USER = "salma"; 
+    private static final String PASSWORD = "salmazine2003";
 
     // Connection method
     public static Connection getConnection() {
@@ -32,9 +32,4 @@ public class ConnectionSQL {
 
         return null;
     }
-
-    // For testing the connection
-//    public static void main(String[] args) {
-//        getConnection();
-//    }
 }
