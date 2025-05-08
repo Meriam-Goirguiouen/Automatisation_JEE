@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="BonLivraisonServletTest" time="2.768" tests="4" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="sun.desktop" value="windows"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.specification.version" value="11"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\univers\OneDrive\Documents\NetBeansProjects\Automatisation_Project\target\test-classes;C:\Users\univers\OneDrive\Documents\NetBeansProjects\Automatisation_Project\target\classes;C:\Users\univers\.m2\repository\javax\servlet\javax.servlet-api\4.0.1\javax.servlet-api-4.0.1.jar;C:\Users\univers\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.7.1\junit-jupiter-api-5.7.1.jar;C:\Users\univers\.m2\repository\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;C:\Users\univers\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\univers\.m2\repository\org\junit\platform\junit-platform-commons\1.7.1\junit-platform-commons-1.7.1.jar;C:\Users\univers\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.7.1\junit-jupiter-engine-5.7.1.jar;C:\Users\univers\.m2\repository\org\junit\platform\junit-platform-engine\1.7.1\junit-platform-engine-1.7.1.jar;C:\Users\univers\.m2\repository\org\mockito\mockito-core\4.0.0\mockito-core-4.0.0.jar;C:\Users\univers\.m2\repository\net\bytebuddy\byte-buddy\1.11.19\byte-buddy-1.11.19.jar;C:\Users\univers\.m2\repository\net\bytebuddy\byte-buddy-agent\1.11.19\byte-buddy-agent-1.11.19.jar;C:\Users\univers\.m2\repository\org\objenesis\objenesis\3.2\objenesis-3.2.jar;C:\Users\univers\.m2\repository\org\mockito\mockito-inline\4.0.0\mockito-inline-4.0.0.jar;C:\Users\univers\.m2\repository\com\microsoft\sqlserver\mssql-jdbc\12.10.0.jre11\mssql-jdbc-12.10.0.jre11.jar;C:\Users\univers\.m2\repository\jakarta\servlet\jakarta.servlet-api\6.1.0\jakarta.servlet-api-6.1.0.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://openjdk.java.net/"/>
+    <property name="user.timezone" value="Africa/Casablanca"/>
+    <property name="java.vm.specification.version" value="11"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="FR"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-11\bin"/>
+    <property name="sun.java.command" value="C:\Users\univers\AppData\Local\Temp\surefire17458746579215565073\surefirebooter5740418715641100181.jar C:\Users\univers\AppData\Local\Temp\surefire17458746579215565073 2025-05-08T23-17-33_361-jvmRun1 surefire6960016603239536282tmp surefire_011990357611707630593tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\univers\OneDrive\Documents\NetBeansProjects\Automatisation_Project\target\test-classes;C:\Users\univers\OneDrive\Documents\NetBeansProjects\Automatisation_Project\target\classes;C:\Users\univers\.m2\repository\javax\servlet\javax.servlet-api\4.0.1\javax.servlet-api-4.0.1.jar;C:\Users\univers\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.7.1\junit-jupiter-api-5.7.1.jar;C:\Users\univers\.m2\repository\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;C:\Users\univers\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\univers\.m2\repository\org\junit\platform\junit-platform-commons\1.7.1\junit-platform-commons-1.7.1.jar;C:\Users\univers\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.7.1\junit-jupiter-engine-5.7.1.jar;C:\Users\univers\.m2\repository\org\junit\platform\junit-platform-engine\1.7.1\junit-platform-engine-1.7.1.jar;C:\Users\univers\.m2\repository\org\mockito\mockito-core\4.0.0\mockito-core-4.0.0.jar;C:\Users\univers\.m2\repository\net\bytebuddy\byte-buddy\1.11.19\byte-buddy-1.11.19.jar;C:\Users\univers\.m2\repository\net\bytebuddy\byte-buddy-agent\1.11.19\byte-buddy-agent-1.11.19.jar;C:\Users\univers\.m2\repository\org\objenesis\objenesis\3.2\objenesis-3.2.jar;C:\Users\univers\.m2\repository\org\mockito\mockito-inline\4.0.0\mockito-inline-4.0.0.jar;C:\Users\univers\.m2\repository\com\microsoft\sqlserver\mssql-jdbc\12.10.0.jre11\mssql-jdbc-12.10.0.jre11.jar;C:\Users\univers\.m2\repository\jakarta\servlet\jakarta.servlet-api\6.1.0\jakarta.servlet-api-6.1.0.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\univers"/>
+    <property name="user.language" value="fr"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-01-16"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-11"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\univers\OneDrive\Documents\NetBeansProjects\Automatisation_Project"/>
+    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="surefire.real.class.path" value="C:\Users\univers\AppData\Local\Temp\surefire17458746579215565073\surefirebooter5740418715641100181.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="11.0.22+9-LTS-219"/>
+    <property name="user.name" value="univers"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="Cp1252"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="18.9"/>
+    <property name="localRepository" value="C:\Users\univers\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\univers\AppData\Local\Temp\"/>
+    <property name="java.version" value="11.0.22"/>
+    <property name="user.dir" value="C:\Users\univers\OneDrive\Documents\NetBeansProjects\Automatisation_Project"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-11\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\app\univers\product\21c\cfgtoollogs\dbca\dbhomeXE\bin;C:\Users\univers\AppData\Local\Programs\Python\Python313\Scripts;C:\Program Files (x86)\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\DTS\Binn\;C:\Program Files\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Users\univers\AppData\Local\Programs\Python\Python312;C:\xampp\php;C:\Program Files\Terraform;C:\Program Files (x86)\Pulumi\;C:\Program Files\Amazon\AWSCLIV2\;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Java\jdk-11\bin;C:\Program Files\Docker\Docker\resources\bin;C:\xampp\mysql\bin;C:\Users\univers\AppData\Local\Programs\Python\Launcher\;C:\Users\univers\AppData\Local\Microsoft\WindowsApps;C:\Users\univers\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\univers\AppData\Roaming\Composer\vendor\bin;C:\Users\univers\.dotnet\tools;C:\Program Files\Apache\Maven\apache-maven-3.9.9\bin;C:\Program Files\Java\jdk-11\bin;;."/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vm.version" value="11.0.22+9-LTS-219"/>
+    <property name="java.specification.maintenance.version" value="2"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="55.0"/>
+  </properties>
+  <testcase name="testFind" classname="BonLivraisonServletTest" time="2.711"/>
+  <testcase name="testDelete" classname="BonLivraisonServletTest" time="0.006"/>
+  <testcase name="testInsert" classname="BonLivraisonServletTest" time="0.007"/>
+  <testcase name="testUpdate" classname="BonLivraisonServletTest" time="0.006"/>
+</testsuite>
