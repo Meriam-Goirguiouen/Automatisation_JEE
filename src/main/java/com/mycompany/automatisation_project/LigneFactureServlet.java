@@ -89,6 +89,6 @@ public class LigneFactureServlet extends HttpServlet {
         }
 
         ligne.setQte(newQte);
-        response.getWriter().write("Quantité mise à jour");
-    }
+        response.getWriter().write("Quantité mise à jour");
+}
 }

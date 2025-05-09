@@ -1,8 +1,6 @@
 package com.mycompany.automatisation_project;
 
 
-
-
 public class LigneFacture {
    
     private int id;
@@ -40,7 +38,7 @@ public class LigneFacture {
         return pu;
     }
 
-    public void setPu(float pu) {
+    public void setPu(float pu){
         this.pu = pu;
     }
 }

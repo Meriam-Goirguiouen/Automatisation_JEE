@@ -74,5 +74,5 @@ public class LigneFactureServletTest {
 
     // Vérification que l'idArticle est présent dans la réponse JSON
     assertTrue(jsonResponse.contains("\"idArticle\":2"));
-     }
-        }
+    }
+}
