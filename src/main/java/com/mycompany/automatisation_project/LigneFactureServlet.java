@@ -20,12 +20,12 @@ public class LigneFactureServlet extends HttpServlet {
 
     public void setEntityManagerFactory(EntityManagerFactory emf) {
         this.emf = emf;
-    }    
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // insert
+        // Handle insert (POST request)
         EntityManager em = emf.createEntityManager();
         try {
             LigneFacture ligne = new LigneFacture();
@@ -47,7 +47,7 @@ public class LigneFactureServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // find or getByArticle
+        // Handle find (GET request by ID or Article)
         EntityManager em = emf.createEntityManager();
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
@@ -92,7 +92,7 @@ public class LigneFactureServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // updateQuantite
+        // Handle update quantity (PUT request)
         EntityManager em = emf.createEntityManager();
         try {
             int id = Integer.parseInt(request.getParameter("id"));
