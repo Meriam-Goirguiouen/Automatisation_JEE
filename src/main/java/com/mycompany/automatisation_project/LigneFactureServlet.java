@@ -1,11 +1,9 @@
 package com.mycompany.automatisation_project;
 
 import jakarta.persistence.*;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.List;
 
 @WebServlet("/lignefacture")
@@ -14,20 +12,17 @@ public class LigneFactureServlet extends HttpServlet {
     @PersistenceUnit(unitName = "testPU")
     private EntityManagerFactory emf;
 
-    public EntityManagerFactory getEmf() {
-        return emf;
-    }
-
     public void setEntityManagerFactory(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Handle insert (POST request)
-        EntityManager em = emf.createEntityManager();
-        try {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try (EntityManager em = getEntityManager()) {
             LigneFacture ligne = new LigneFacture();
             ligne.setIdArticle(Integer.parseInt(request.getParameter("idArticle")));
             ligne.setQte(Integer.parseInt(request.getParameter("qte")));
@@ -39,25 +34,18 @@ public class LigneFactureServlet extends HttpServlet {
 
             response.setContentType("text/plain");
             response.getWriter().write("Ligne insérée avec ID : " + ligne.getId());
-        } finally {
-            em.close();
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Handle find (GET request by ID or Article)
-        EntityManager em = emf.createEntityManager();
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-
-        try {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try (EntityManager em = getEntityManager()) {
             String idParam = request.getParameter("id");
             String articleParam = request.getParameter("idArticle");
+            PrintWriter out = response.getWriter();
+            response.setContentType("application/json");
 
             if (idParam != null) {
-                // find by ID
                 LigneFacture ligne = em.find(LigneFacture.class, Integer.parseInt(idParam));
                 if (ligne != null) {
                     out.printf("{\"id\":%d,\"idArticle\":%d,\"qte\":%d,\"pu\":%.2f}",
@@ -67,7 +55,6 @@ public class LigneFactureServlet extends HttpServlet {
                     out.write("{\"error\":\"Ligne non trouvée\"}");
                 }
             } else if (articleParam != null) {
-                // get by Article
                 List<LigneFacture> lignes = em.createQuery(
                         "SELECT l FROM LigneFacture l WHERE l.idArticle = :id", LigneFacture.class)
                         .setParameter("id", Integer.parseInt(articleParam))
@@ -85,16 +72,12 @@ public class LigneFactureServlet extends HttpServlet {
                 response.setStatus(400);
                 out.write("{\"error\":\"Paramètre manquant (id ou idArticle)\"}");
             }
-        } finally {
-            em.close();
         }
     }
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Handle update quantity (PUT request)
-        EntityManager em = emf.createEntityManager();
-        try {
+        try (EntityManager em = getEntityManager()) {
             int id = Integer.parseInt(request.getParameter("id"));
             int newQte = Integer.parseInt(request.getParameter("qte"));
 
@@ -110,8 +93,6 @@ public class LigneFactureServlet extends HttpServlet {
             em.getTransaction().commit();
 
             response.getWriter().write("Quantité mise à jour");
-        } finally {
-            em.close();
         }
     }
 }
