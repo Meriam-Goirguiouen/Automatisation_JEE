@@ -3,6 +3,7 @@ package com.mycompany.automatisation_project;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "db_lignefacture")
 public class LigneFacture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
