@@ -1,11 +1,10 @@
 package com.mycompany.automatisation_project;
 
-import jakarta.persistence.*;
 
-@Entity
+
+
 public class LigneFacture {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   
     private int id;
 
     private int idArticle;

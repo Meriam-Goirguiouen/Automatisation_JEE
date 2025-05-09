@@ -1,117 +1,94 @@
 package com.mycompany.automatisation_project;
 
-import jakarta.persistence.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.util.*;
 
 @WebServlet("/lignefacture")
 public class LigneFactureServlet extends HttpServlet {
 
-    @PersistenceUnit(unitName = "testPU")
-    private EntityManagerFactory emf;
-
-    public EntityManagerFactory getEmf() {
-        return emf;
-    }
-
-    public void setEntityManagerFactory(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
+    // Simuler une base de données en mémoire
+    private static final Map<Integer, LigneFacture> fakeDB = new HashMap<>();
+    private static int currentId = 1;
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Handle insert (POST request)
-        EntityManager em = emf.createEntityManager();
-        try {
-            LigneFacture ligne = new LigneFacture();
-            ligne.setIdArticle(Integer.parseInt(request.getParameter("idArticle")));
-            ligne.setQte(Integer.parseInt(request.getParameter("qte")));
-            ligne.setPu(Float.parseFloat(request.getParameter("pu")));
+        int idArticle = Integer.parseInt(request.getParameter("idArticle"));
+        int qte = Integer.parseInt(request.getParameter("qte"));
+        float pu = Float.parseFloat(request.getParameter("pu"));
 
-            em.getTransaction().begin();
-            em.persist(ligne);
-            em.getTransaction().commit();
+        LigneFacture ligne = new LigneFacture();
+        ligne.setId(currentId++);
+        ligne.setIdArticle(idArticle);
+        ligne.setQte(qte);
+        ligne.setPu(pu);
 
-            response.setContentType("text/plain");
-            response.getWriter().write("Ligne insérée avec ID : " + ligne.getId());
-        } finally {
-            em.close();
-        }
+        fakeDB.put(ligne.getId(), ligne);
+
+        response.setContentType("text/plain");
+        response.getWriter().write("Ligne insérée avec ID : " + ligne.getId());
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Handle find (GET request by ID or Article)
-        EntityManager em = emf.createEntityManager();
-        PrintWriter out = response.getWriter();
         response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
 
-        try {
-            String idParam = request.getParameter("id");
-            String articleParam = request.getParameter("idArticle");
+        String idParam = request.getParameter("id");
+        String articleParam = request.getParameter("idArticle");
 
-            if (idParam != null) {
-                // find by ID
-                LigneFacture ligne = em.find(LigneFacture.class, Integer.parseInt(idParam));
-                if (ligne != null) {
-                    out.printf("{\"id\":%d,\"idArticle\":%d,\"qte\":%d,\"pu\":%.2f}",
-                            ligne.getId(), ligne.getIdArticle(), ligne.getQte(), ligne.getPu());
-                } else {
-                    response.setStatus(404);
-                    out.write("{\"error\":\"Ligne non trouvée\"}");
-                }
-            } else if (articleParam != null) {
-                // get by Article
-                List<LigneFacture> lignes = em.createQuery(
-                        "SELECT l FROM LigneFacture l WHERE l.idArticle = :id", LigneFacture.class)
-                        .setParameter("id", Integer.parseInt(articleParam))
-                        .getResultList();
-
-                out.write("[");
-                for (int i = 0; i < lignes.size(); i++) {
-                    LigneFacture l = lignes.get(i);
-                    out.printf("{\"id\":%d,\"idArticle\":%d,\"qte\":%d,\"pu\":%.2f}%s",
-                            l.getId(), l.getIdArticle(), l.getQte(), l.getPu(),
-                            (i < lignes.size() - 1) ? "," : "");
-                }
-                out.write("]");
+        if (idParam != null) {
+            int id = Integer.parseInt(idParam);
+            LigneFacture ligne = fakeDB.get(id);
+            if (ligne != null) {
+                out.printf("{\"id\":%d,\"idArticle\":%d,\"qte\":%d,\"pu\":%.2f}",
+                        ligne.getId(), ligne.getIdArticle(), ligne.getQte(), ligne.getPu());
             } else {
-                response.setStatus(400);
-                out.write("{\"error\":\"Paramètre manquant (id ou idArticle)\"}");
+                response.setStatus(404);
+                out.write("{\"error\":\"Ligne non trouvée\"}");
             }
-        } finally {
-            em.close();
+        } else if (articleParam != null) {
+            int idArticle = Integer.parseInt(articleParam);
+            List<LigneFacture> lignes = new ArrayList<>();
+            for (LigneFacture lf : fakeDB.values()) {
+                if (lf.getIdArticle() == idArticle) {
+                    lignes.add(lf);
+                }
+            }
+
+            out.write("[");
+            for (int i = 0; i < lignes.size(); i++) {
+                LigneFacture l = lignes.get(i);
+                out.printf("{\"id\":%d,\"idArticle\":%d,\"qte\":%d,\"pu\":%.2f}%s",
+                        l.getId(), l.getIdArticle(), l.getQte(), l.getPu(),
+                        (i < lignes.size() - 1) ? "," : "");
+            }
+            out.write("]");
+        } else {
+            response.setStatus(400);
+            out.write("{\"error\":\"Paramètre manquant (id ou idArticle)\"}");
         }
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Handle update quantity (PUT request)
-        EntityManager em = emf.createEntityManager();
-        try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            int newQte = Integer.parseInt(request.getParameter("qte"));
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        int newQte = Integer.parseInt(request.getParameter("qte"));
 
-            LigneFacture ligne = em.find(LigneFacture.class, id);
-            if (ligne == null) {
-                response.setStatus(404);
-                response.getWriter().write("Ligne introuvable");
-                return;
-            }
-
-            em.getTransaction().begin();
-            ligne.setQte(newQte);
-            em.getTransaction().commit();
-
-            response.getWriter().write("Quantité mise à jour");
-        } finally {
-            em.close();
+        LigneFacture ligne = fakeDB.get(id);
+        if (ligne == null) {
+            response.setStatus(404);
+            response.getWriter().write("Ligne introuvable");
+            return;
         }
+
+        ligne.setQte(newQte);
+        response.getWriter().write("Quantité mise à jour");
     }
 }
