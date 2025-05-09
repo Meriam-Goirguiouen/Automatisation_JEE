@@ -1,4 +1,4 @@
-package com.mycompany.automatisation_project;
+
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
